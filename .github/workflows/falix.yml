@@ -14,12 +14,22 @@ jobs:
     name: 执行脚本
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       actions: write
 
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
+
+      - name: 拉取私有脚本
+        uses: actions/checkout@v4
+        with:
+          repository: wff0325/Renew-Private
+          token: ${{ secrets.GH_PAT }}
+          path: temp_repo
+
+      - name: 准备脚本
+        run: cp temp_repo/FalixNodes.py main.py
 
       - name: 配置 Python
         uses: actions/setup-python@v5
